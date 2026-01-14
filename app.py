@@ -38,16 +38,14 @@ WEAVIATE_FETCH = 80
 async def lifespan(app: FastAPI):
     # Startup: connect to Weaviate
     global client
-    client = weaviate.connect_to_weaviate_cloud(  # ← updated name
-        cluster_url=WEAVIATE_URL,
-        auth_credentials=AuthApiKey(WEAVIATE_API_KEY),
-        additional_config=AdditionalConfig(
-            timeout=Timeout(init=30, query=120, insert=300)
-        ),
-        headers={
-            "X-Weaviate-Cluster-Url": WEAVIATE_URL  # optional, keep if needed
-        }
+    client = weaviate.connect_to_weaviate_cloud(
+    cluster_url=WEAVIATE_URL,
+    auth_credentials=AuthApiKey(WEAVIATE_API_KEY),
+    additional_config=AdditionalConfig(
+        timeout=Timeout(init=30, query=120, insert=300)
     )
+)
+
 
     if not client.is_ready():
         raise RuntimeError("Weaviate is not ready. Check URL/API key/cluster.")
@@ -67,7 +65,7 @@ app = FastAPI(title="Patent Hybrid Search API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000","*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

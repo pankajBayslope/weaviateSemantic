@@ -1,6 +1,6 @@
 fastapi==0.115.0
 uvicorn==0.30.6
-weaviate-client>=3.26.7,<4.0.0
+weaviate-client>=4.4.0
 python-dotenv==1.0.1
 sentence-transformers==3.1.1
 numpy==1.26.4
